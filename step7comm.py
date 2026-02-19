@@ -6,6 +6,7 @@ import os
 
 print(snap7.__file__)
 
+#os.path.dirname(snap7.__file__)
 #pyinstaller --onefile --add-binary="caminho dll;." arquivo
 
 IP = input("Enter the IP address of the PLC: ")
