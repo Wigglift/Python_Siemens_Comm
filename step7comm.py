@@ -124,8 +124,9 @@ while execute == True:
 
     try:
         os.replace(TEMPORARY_FILE, FILE)
-    except:
-        print("Error replacing the TMP file")
-        time.sleep(5)
+    except Exception as e:
+        if e != PermissionError:
+            print("Error replacing files")
+            print(e)
 
     time.sleep(0.5)
