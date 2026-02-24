@@ -108,7 +108,7 @@ while execute == True:
             file.write("quant. peça;" + str(snap7.util.get_int(data, 2))+ "\n")
             file.write("peças lote;" + str(snap7.util.get_int(data, 4))+ "\n")
             file.write("peças turno;" + str(snap7.util.get_int(data, 6))+ "\n")
-            file.write("maquina produzindo;" + str(snap7.util.get_bit(data, 8, 0))+ "\n")
+            file.write("maquina produzindo;" + str(snap7.util.get_boolt(data, 8, 0))+ "\n")
 
             nome_ferramenta = ""
 
