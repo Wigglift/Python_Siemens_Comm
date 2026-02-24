@@ -105,13 +105,15 @@ while execute == True:
         with open(TEMPORARY_FILE, "w") as file:
     
             file.write("nº ferr;" + str(snap7.util.get_int(data, 0)) + "\n")
-            file.write("velocidade;" + str(snap7.util.get_int(data, 2))+ "\n")
-            file.write("quant. peça;" + str(snap7.util.get_int(data, 4))+ "\n")
+            file.write("quant. peça;" + str(snap7.util.get_int(data, 2))+ "\n")
+            file.write("peças lote;" + str(snap7.util.get_int(data, 4))+ "\n")
+            file.write("peças turno;" + str(snap7.util.get_int(data, 6))+ "\n")
+            file.write("maquina produzindo;" + str(snap7.util.get_bit(data, 8, 0))+ "\n")
 
             nome_ferramenta = ""
 
-            for i in range(32):
-                nome_ferramenta += snap7.util.get_char(data, i + 6)
+            for i in range(size - 9):
+                nome_ferramenta += snap7.util.get_char(data, i + 9)
 
             file.write("nome;" + str(nome_ferramenta)+ "\n")
             file.close()
