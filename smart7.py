@@ -9,7 +9,8 @@ class Smart7:
     def __init__(self):
         self.plc = snap7.client.Client()
 
-    def set_comm_info(self, IP: str, RACK: int, SLOT: int):
+    def set_comm_info(self,DIRECTORY: str, IP: str, RACK: int, SLOT: int):
+        self.workspace = DIRECTORY
         self.IP = IP
         self.RACK = RACK
         self.SLOT = SLOT
@@ -29,10 +30,11 @@ class Smart7:
         self.start_byte = start_byte
         self.final_byte = final_byte
         
-    def get_db_data(self):
+    def read_db_data(self):
+        self.data = self.plc.db_read(self.db, self.start_byte, self.final_byte)
         return self.data
         
-    def read_db_data(self):
+    def get_status_db_data(self):
         try:
             self.data = self.plc.db_read(self.db, self.start_byte, self.final_byte)
             return "reading DB success"
@@ -40,9 +42,13 @@ class Smart7:
             return f"Error reading DB: {e}"
 
     
-    def replace_txt_file(self, path: str):
+    def generate_txt_file(self):
+
+        TXT_FILE = self.workspace + "/db_read.txt"
+        TMP_FILE = self.workspace + "/db_temp_read.tmp"
+
         try:
-            with open("./db_temp_read.tmp" , "w") as file:
+            with open(TMP_FILE, "w") as file:
         
                 file.write("nº ferr;" + str(snap7.util.get_int(self.data, 0)) + "\n")
                 file.write("quant. peça;" + str(snap7.util.get_int(self.data, 2))+ "\n")
@@ -52,7 +58,7 @@ class Smart7:
 
                 nome_ferramenta = ""
 
-                for i in range(self.db_size - 9):
+                for i in range(self.final_byte - 9):
                     nome_ferramenta += snap7.util.get_char(self.data, i + 9)
 
                 file.write("nome;" + str(nome_ferramenta)+ "\n")
@@ -65,7 +71,7 @@ class Smart7:
             time.sleep(5)
         
         try:
-            os.replace("./db_temp_read.tmp", path)
+            os.replace(TMP_FILE, TXT_FILE)
 
         except Exception as e:
             if e != PermissionError:
@@ -76,6 +82,7 @@ class Smart7:
     def generate_settings_file(self, path: str):
 
         data = {
+            "DIRECTORY": self.workspace,
             "IP": self.IP,
             "RACK": self.RACK,
             "SLOT": self.SLOT,
@@ -98,6 +105,7 @@ class Smart7:
             with open(path, "r") as file:
                 data = json.load(file)
 
+                self.workspace = data["DIRECTORY"]
                 self.IP = data["IP"]
                 self.RACK = int(data["RACK"])
                 self.SLOT = int(data["SLOT"])
