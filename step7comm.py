@@ -7,9 +7,7 @@ import os
 #os.path.dirname(snap7.__file__)
 #pyinstaller --onefile --add-binary="caminho dll;." arquivo
 SETTINGS_FILE = "./settings.json"
-TEMPORARY_FILE = "F:/testeComm/teste.tmp" 
 FILE = "F:/testeComm/teste.txt"
-plc = snap7.client.Client()
 
 if(not os.path.exists(SETTINGS_FILE)):
 
@@ -36,7 +34,7 @@ if(not os.path.exists(SETTINGS_FILE)):
 else:
     print("Settings file exists, connecting to settings")
     
-    Smart7.get_settings()
+    Smart7.get_settings(SETTINGS_FILE)
 
     print(Smart7.connect())
 
@@ -49,4 +47,4 @@ execute = True
 while execute == True:
     Smart7.replace_txt_file(FILE)
 
-    time.sleep(0.5)
+time.sleep(0.5)
