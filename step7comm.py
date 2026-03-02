@@ -5,7 +5,9 @@ import time
 import os
 
 #os.path.dirname(snap7.__file__)
-#pyinstaller --onefile --add-binary="caminho dll;." arquivo
+
+#pyinstaller --onefile --add-binary="caminho dll;." step7comm
+
 SETTINGS_FILE = "./settings.json"
 smart7 = Smart7()
 

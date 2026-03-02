@@ -58,12 +58,11 @@ class Smart7:
 
                 nome_ferramenta = ""
 
-                for i in range(self.final_byte - 9):
-                    nome_ferramenta += snap7.util.get_char(self.data, i + 9)
+                for i in range(self.final_byte - 10):
+                    nome_ferramenta += snap7.util.get_char(self.data, i + 10)
 
                 file.write("nome;" + str(nome_ferramenta)+ "\n")
                 file.close()
-
 
         except Exception as e:
             print("Error writing the archive")
